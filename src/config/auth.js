@@ -1,0 +1,20 @@
+const jwt = require('jsonwebtoken');
+
+
+const authenticate = async (req, res , next) => {
+    const header = req.headers.authorization;
+    if(!header || !header.startsWith('Bearer ')){
+        res.send(400).json({Message: 'Unauthorized'})
+    }
+
+    const token = header.split('')[1];
+
+    r
+    try {
+        const decoded = jwt.verify(token , process.env.JWT_SECRET)
+    } catch (error) {
+        console.error("Authentication error:", error);
+        return res.status(401).json({message : "Invalid Token"});
+    }
+}
+module.exports = authenticate
