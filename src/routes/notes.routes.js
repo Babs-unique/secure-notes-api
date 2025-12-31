@@ -3,8 +3,10 @@ const auth = require("../config/auth");
 const  {createNotes}  = require('../controllers/notes.controller');
 
 
-const notesRouter = express.Router()
+const NotesRouter = express.Router()
 
-notesRouter.post('/createNote', auth , createNotes )
-
-module.exports = notesRouter;
+NotesRouter.post('/createNote', auth , createNotes )
+NotesRouter.post('/',(req,res)=>{
+    res.status(200).json({Message: "Welcome to my notes homepage"})
+})
+module.exports = NotesRouter;

@@ -4,7 +4,8 @@ const Notes = require('../models/notes.models')
 const createNotes = async ( req, res) =>{
     const {title , content} = req.body;
     try {
-        const userId = req.user.userId;
+        const userId = req.user.id;
+        console.log(userId)
         if(!userId) {
             return res.status(401).json({Message: "User not logged In/ User not found"})
         }
