@@ -31,10 +31,63 @@ const getAllNotes = async (req, res) =>{
         return res.status(500).json({Message: "Internal Server error"})
     }
 }
+const getNoteById = async (req, res) =>{
+    const {id} = req.params;
+    try {
+        const note = await Notes.findById(id);
+        if(!note){
+            return res.status(404).json({Message: "Note not found"})
+        }
+        if(note.user.toString() !== req.user.id){
+            return res.status(403).json({Message: "Access denied"})
+        }
+        return res.status(200).json({note});
+    } catch (error) {
+        console.log("Internal server Error", error);
+        return res.status(500).json({Message: "Internal Server error"})
+    }
+}
+
+const updateNote = async (req, res) =>{
+    const {id} = req.params;
+    try {
+        const note = await Notes.findByIdAndUpdate(
+            id,
+            {title, content},
+            {new: true}
+        );
+        if(!note){
+            return res.status(404).json({Message: "Note not found"})
+        }
+        if(note.user.toString() !== req.user.id){
+            return res.status(403).json({Message: "Access denied"})
+        }
+        return res.status(200).json({note});
+    } catch (error) {
+        console.log("Internal server Error", error);
+        return res.status(500).json({Message: "Internal Server error"})
+    }
+}
+
+const deleteNote = async (req, res) =>{
+    const {id} = req.params;
+    try {
+        const note = await Notes.findByIdAndDelete(id);
+        if(!note){
+            return res.status(404).json({Message: "Note not found"})
+        }
+        if(note.user.toString() !== req.user.id){
+            return res.status(403).json({Message: "Access denied"})
+        }
+        return res.status(200).json({Message: "Note deleted successfully"},note.length);
+    } catch (error) {
+        console.log("Internal server Error", error);
+    }
+}
 
 
 
 
 
 
-module.exports = {createNotes, getAllNotes}
+module.exports = {createNotes, getAllNotes , getNoteById, updateNote, deleteNote}
