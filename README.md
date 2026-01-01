@@ -113,7 +113,3 @@ curl -X POST http://localhost:3000/api/notes/createNote \
 **Contributing**
 - Open an issue for bugs or feature requests. Fork and submit a PR for changes.
 
----
-
-If you'd like, I can also run a quick live test of signup → login → createNote against your current server and show the exact request/response flow to reproduce the earlier auth issue. Say the word and I'll run the sequence and share results.
-
