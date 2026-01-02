@@ -8,6 +8,14 @@ const createNotes = async ( req, res) =>{
         if(!userId) {
             return res.status(401).json({Message: "User not logged In/ User not found"})
         }
+        const existingNote = await Notes.findOne({
+            title,
+            user: userId
+        });
+        if(existingNote){
+            return res.status(400).json({Message: "Note with this title already exists"})
+        }
+
         const newNote = new Notes({
             title,
             content,
@@ -24,6 +32,9 @@ const getAllNotes = async (req, res) =>{
     const userId = req.user.id;
     try {
         const notes = await Notes.find({user: userId});
+        if(!notes){
+            return res.status(404).json({Message: "No notes found"})
+        }
 
         return res.status(200).json({notes})
     } catch (error) {
